@@ -1,7 +1,12 @@
 import tensorflow as tf
+from tensorflow.python.keras.initializers import Identity, glorot_uniform, Zeros
+from tensorflow.python.keras.layers import Dropout, Input, Layer, Embedding, Reshape
+from tensorflow.python.keras.models import Model
+from tensorflow.python.keras.regularizers import l2
 import numpy as np
 import random
 import datetime
+from sklearn import datasets
 import scipy.sparse as sp
 import copy
 
@@ -25,14 +30,22 @@ class GNN(object):
 Parameters
 ----------
 layers : list of numbers of nodes in each hidden layer
-batch_size : int, size of each batch
-epoch : int, number of epoch
-activation : tensorflow activation
-dropout_rate : float, percentage of weights in each layer to drop during training
-l2_reg : float, L2 norm for all the weights
-learning_rate : float, learning rate
+
+batch_size : int, size of each batch, default : 256
+
+epoch : int, number of epoch, default : 10
+
+activation : tensorflow activation, default: tf.nn.relu
+
+dropout_rate : float, percentage of weights in each layer 
+    to drop during training, default : 0.5
+
+l2_reg : float, L2 norm for all the weights, default : 1e-5
+
+learning_rate : float, learning rate, default : 0.01
+
     '''
-    def __init__(self,layers=[16,16],batch_size=200,epoch = 10,activation=tf.nn.relu,\
+    def __init__(self,layers=[16,16],batch_size=256,epoch = 10,activation=tf.nn.relu,\
                  dropout_rate=0.5, l2_reg=1e-5,learning_rate=0.01):
         self.layers = layers
         self.activation = activation
@@ -47,14 +60,20 @@ learning_rate : float, learning rate
         '''
             Inputs:
                 X: ndarray , shape of (n,p)
+
                 Y: ndarray , one-hot encoded, shape of (n,#class)
+
                 train_mask: ndarray, float, shape of (n,)
                     Only those observation k with train_mask[k]>0 will be trained.
                     The value of each element can be regarded as the weight of each
                     observation in loss function.
+
                 A: scipy.sparse.coo.coo_matrix, shape of (n,n)
                     If A is None, identity matrix will be adopted,
                     in such case, the network is equivalent to a normal NN. 
+                    Default : None
+
+                track: bool, whether to print loss track, default : True
         '''
 
         tf.reset_default_graph()
