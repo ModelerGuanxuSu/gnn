@@ -1,9 +1,15 @@
 *编辑：苏冠旭 2019/12/3*
 
+<p align="center">
+    <a href="https://github.com/python/cpython"><img src="https://img.shields.io/badge/Python-3.7-FF1493.svg"></a>
+    <a href="https://github.com/tensorflow/tensorflow"><img src="https://img.shields.io/badge/TensorFlow-1.14.0-blue"></a>
+    <a href="https://opensource.org/licenses/mit-license.php"><img src="https://badges.frapsoft.com/os/mit/mit.svg"></a>
+</p>
+
 ## 版本要求
 
 - **Tensorflow** 1.15.0 或1.14.0
-- **Python** 3.6+
+- **Python** 3.7
 
 
 ## 训练过程
